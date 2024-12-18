@@ -2,15 +2,15 @@ pipeline{
     agent any
 
     environment {
-        GIT_REPO_URL = 'https://github.com/gachips/sample.git'
-        BRANCH = 'main'
+        GIT_REPO_URL='https://github.com/gachips/sample.git'
+        BRANCH='main'
     }
     stages{
         stage('checkout'){
             steps{
                 echo "checkout source code"
-                git branch: "${BRANCH}"
-                    url: "${GIT_REPO_URL}"
+                git branch:"${BRANCH}"
+                	url:"${GIT_REPO_URL}"
             }
         }
         stage ('build'){
