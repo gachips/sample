@@ -1,21 +1,22 @@
 pipeline{
     agent any
+
+    environment {
+        GIT_REPO_URL = 'https://github.com/gachips/sample.git'
+        BRANCH = 'main'
+    }
     stages{
         stage('checkout'){
             steps{
-                echo "checkout source code "
-                checkout scm
+                echo "checkout source code"
+                git branch: "${BRANCH}"
+                    url: "${GIT_REPO_URL}"
             }
         }
         stage ('build'){
             steps{
                 echo "build the project"
                 sh 'mvn clean package'
-            }
-        }
-        stage('test'){
-            steps{
-                sh 'mvn test'
             }
         }
         stage('Archive Artifacts'){
@@ -26,6 +27,9 @@ pipeline{
         }
     }
     post {
+        always{
+            cleanWs()
+        }
         sucess{
             echo "Build is success"
         }
