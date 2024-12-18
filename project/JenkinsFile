@@ -1,0 +1,36 @@
+pipeline{
+    agent any
+    stages{
+        stage('checkout'){
+            steps{
+                echo "checkout source code "
+                checkout scm
+            }
+        }
+        stage ('build'){
+            steps{
+                echo "build the project"
+                sh 'mvn clean package'
+            }
+        }
+        stage('test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('Archive Artifacts'){
+            steps{
+                echo "Archiving the build artifacts"
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+    }
+    post {
+        sucess{
+            echo "Build is success"
+        }
+        failure{
+            echo "Build is Failed!"
+        }
+    }
+}
