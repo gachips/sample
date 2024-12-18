@@ -5,7 +5,7 @@ pipeline{
         GIT_REPO_URL = "https://github.com/gachips/sample.git"
         BRANCH = "main"
     }
-    cleanWs()
+    
     stages{
         stage('checkout'){
             steps{
