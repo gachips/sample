@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+
+    environment {
+        GIT_REPO_URL = 'https://github.com/gachips/sample.git'
+        BRANCH = 'main'
+    }
+    stages{
+        stage('checkout'){
+            steps{
+                echo "checkout source code"
+                git branch: "${BRANCH}"
+                    url: "${GIT_REPO_URL}"
+            }
+        }
+        stage ('build'){
+            steps{
+                echo "build the project"
+                sh 'mvn clean package'
+            }
+        }
+        stage('Archive Artifacts'){
+            steps{
+                echo "Archiving the build artifacts"
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+    }
+    post {
+        always{
+            cleanWs()
+        }
+        sucess{
+            echo "Build is success"
+        }
+        failure{
+            echo "Build is Failed!"
+        }
+    }
+}
