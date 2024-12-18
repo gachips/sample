@@ -17,9 +17,6 @@ pipeline{
         stage ('build'){
             steps{
                 echo "build the project"
-                cd project
-                echo "present working "
-                sh 'pwd'
                 sh 'mvn clean package'
             }
         }
